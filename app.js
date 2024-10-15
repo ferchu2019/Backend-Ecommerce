@@ -1,13 +1,10 @@
 const express = require('express');
 const app = express();
-const User = require('./models/user.model')
+const userRoutes = require('./routes/user.routes');
 
 app.use(express.json())
+app.use([userRoutes])
 
 
-
-app.delete("/users", (req, res) => {
-    return res.send(`Usuario borrado`)
-})
 
 module.exports = app;
