@@ -12,14 +12,15 @@ async function getUsers(req, res) {
 }
 
 async function createUser(req, res) {
-    const user = new User(req.body)
+    const user = new User(req.body);
+    console.log(req.body);
     user.save().then((newUser) => {
         console.log(newUser);
-        res.status(201).send(newUser)
-             }).catch(error => {
-                console.log(error);
-                res.status(500).send("El usuario no se pudo crear")
-            })
+        res.status(201).send(newUser);
+        }).catch(error => {
+            console.log(error);
+            res.status(500).send("El usuario no se pudo crear")
+        })
 }
 
 async function getUserById(req, res) {

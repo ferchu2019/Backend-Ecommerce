@@ -12,7 +12,3 @@ mongoose.connect(DataBaseURL).then(() => {
 }).catch(error => console.log("Error al conectar a la Base de datos", error));
 
 
-
-//app.post("/products", (req, res) => {
-//    res.send("producto creado")
-//})
