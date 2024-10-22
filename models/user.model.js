@@ -13,7 +13,21 @@ const userSchema = new Schema({
             // validate: {validator: (value)=> {
             //      const regex = /¨[A-Za-z0-9._+\-']+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/}}
             },
-    password: {type: String}
+    password: {type: String,
+               required: true,
+               minlength: 4,
+               maxlength: 24,
+               trim: true
+
+    },
+    date_birth: {type: String,
+        required: true,
+        validate: { validator: (value) => {
+            const date = new Date(value);
+            const today = new Date();
+            return date < today;
+        }}
+    }
 });
 
 module.exports = mongoose.model("User", userSchema)
