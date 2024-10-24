@@ -10,23 +10,30 @@ const userSchema = new Schema({
             maxlength: 100, 
             unique: true, 
             index: true, 
-            // validate: {validator: (value)=> {
-            //      const regex = /¨[A-Za-z0-9._+\-']+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/}}
+            validate: {validator: (value) => {
+                 const regex = /^[A-Za-z0-9._+\-']+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
+                 return regex.test(value)
+                }}
             },
-    password: {type: String,
-               required: true,
-               minlength: 4,
-               maxlength: 24,
-               trim: true
-
-    },
-    date_birth: {type: String,
+    password: {type: String, required: true, minlength: 4, maxlength: 70, trim: true},
+    bornDate: {type: String,
         required: true,
-        validate: { validator: (value) => {
-            const date = new Date(value);
-            const today = new Date();
-            return date < today;
-        }}
+        //validate: { validator: (value) => {
+        //    const date = new Date(value);
+        //    const today = new Date();
+        //    return date < today;
+        //}}
+    },
+    location: {type: String, required: true, minlength: 3, maxlength: 100},
+    image: {type: String},
+    role: {
+        type: String, 
+        default: "client",
+        enum: ["client", "user", "admin", "superadmin"]
+    },
+    createdAt: {type: Date,
+        default: Date.now
+
     }
 });
 

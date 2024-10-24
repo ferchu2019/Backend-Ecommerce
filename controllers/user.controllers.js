@@ -1,4 +1,6 @@
-const User = require('../models/user.model')
+const User = require('../models/user.model');
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 async function getUsers(req, res) {
     try {
@@ -12,15 +14,23 @@ async function getUsers(req, res) {
 }
 
 async function createUser(req, res) {
+    if(!req.body.password){
+        return res.status(400).send({ok: false, message:"campo requerido"})
+    }
     const user = new User(req.body);
-    console.log(req.body);
-    user.save().then((newUser) => {
+    bcrypt.hash(user.password, saltRounds, (error, hash) => {
+        if(error){ 
+            console.log(error);
+            return res.status(500).send({ok:false, message:"Error al crear usuario"})}
+        user.password = hash;
+        user.save().then((newUser) => {
         console.log(newUser);
         res.status(201).send(newUser);
         }).catch(error => {
             console.log(error);
             res.status(500).send("El usuario no se pudo crear")
         })
+    })    
 }
 
 async function getUserById(req, res) {
@@ -40,6 +50,7 @@ async function getUserById(req, res) {
 
 async function deleteUser(req, res) {
     try {
+        
         const {id} = req.params;
         const deletedUser = await User.findByIdAndDelete(id)
         return res.status(200).send({ok:true, message:"El usuario fue borrado correctamente", deletedUser})
@@ -49,4 +60,16 @@ async function deleteUser(req, res) {
     }
 }
 
-module.exports = { getUsers, createUser, getUserById, deleteUser}
+async function updateUser(req, res) {
+    try {
+        const {id} = req.params
+        const user = await User.findByIdAndUpdate(id, req.body, {new: true})
+        console.log(user)
+        return res.send({ ok: false, message: "Usuario actualizado correctamente", user})
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({ ok: false, message: "Error al actualizar usuario"})
+    }
+}
+
+module.exports = { getUsers, createUser, getUserById, deleteUser, updateUser}
