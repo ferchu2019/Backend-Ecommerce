@@ -72,4 +72,8 @@ async function updateUser(req, res) {
     }
 }
 
-module.exports = { getUsers, createUser, getUserById, deleteUser, updateUser}
+async function login(req, res) {
+    res.send("Login endpoint")
+}
+
+module.exports = { getUsers, createUser, getUserById, deleteUser, updateUser, login}
