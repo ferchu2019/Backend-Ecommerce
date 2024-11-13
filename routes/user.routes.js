@@ -4,11 +4,11 @@ const userControllers = require('../controllers/user.controllers');
 const validation = require('../middlewares/authentication');
 const isAdmin = require('../middlewares/isAdmin')
 
-router.get("/users", userControllers.getUsers)
+router.get("/users", validation, userControllers.getUsers)
 
 router.post("/users", userControllers.createUser)
 
-router.get("/users/:id", userControllers.getUserById)
+router.get("/users/:id", validation, userControllers.getUserById)
 
 router.delete("/users/:id", [validation, isAdmin], userControllers.deleteUser)
 

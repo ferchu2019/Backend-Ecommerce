@@ -43,10 +43,9 @@ async function getUserById(req, res) {
         const user = await User.findById(id);
         if(!user){
             return res.status(404).send("El usuario no fue encontrado")
-        }else{
-        console.log(user)
+        }
         user.password = undefined;
-        return res.status(200).send(user)}
+        return res.status(200).send({ok:true,message: "El usuario fue encontrado", user})
     } catch (error) {
         console.log(error);
         return res.status(500).send("Error al obtener usuario")     
@@ -69,11 +68,11 @@ async function updateUser(req, res) {
     try {
         const {id} = req.params;
         if(req.user.role !== "admin" && id !== req.user._id){
-            return res.status(403).send({message: "Usuario sin permisos"})
+            return res.status(403).send({message: "Usuario sin permiso para actualizar este usuario"})
         }
         const user = await User.findByIdAndUpdate(id, req.body, {new: true})
         console.log(user)
-        return res.send({ ok: false, message: "Usuario actualizado correctamente", user})
+        return res.status(200).send({ ok: false, message: "Usuario actualizado correctamente", user})
     } catch (error) {
         console.log(error);
         return res.status(500).send({ ok: false, message: "Error al actualizar usuario"})

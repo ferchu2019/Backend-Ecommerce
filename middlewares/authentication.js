@@ -12,7 +12,7 @@ function validation (req, res, next){
     jwt.verify(token, SECRET, (error, payload) => {
         if(error){
             console.log(error);
-            return res.status(401).send({message: "No está autorizado"})
+            return res.status(401).send({message: "No tiene autorización"})
         }
         console.log(payload)
 
