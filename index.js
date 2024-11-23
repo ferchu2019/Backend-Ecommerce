@@ -2,7 +2,7 @@ require('dotenv').config();
 const app = require('./app');
 const reset = "\x1b[0m";
 const PORT = 3000;
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const DataBaseURL = process.env.Mongo_URI;
 

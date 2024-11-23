@@ -1,18 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const userControllers = require('../controllers/user.controllers');
-const validation = require('../middlewares/authentication');
-const isAdmin = require('../middlewares/isAdmin')
+// const validation = require('../middlewares/authentication');
+// const isAdmin = require('../middlewares/isAdmin');
+const uploadUser = require('../middlewares/upLoadFileUser');
 
-router.get("/users", validation, userControllers.getUsers)
+router.get("/users", userControllers.getUsers)
 
-router.post("/users", userControllers.createUser)
+router.post("/users", [ uploadUser], userControllers.createUser)
 
-router.get("/users/:id", validation, userControllers.getUserById)
+router.get("/users/:id", userControllers.getUserById)
 
-router.delete("/users/:id", [validation, isAdmin], userControllers.deleteUser)
+router.delete("/users/:id", userControllers.deleteUser)
 
-router.put("/users/:id", validation, userControllers.updateUser);
+router.put("/users/:id",  userControllers.updateUser);
 
 router.post("/login", userControllers.login);
 

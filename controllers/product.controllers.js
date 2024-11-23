@@ -14,8 +14,13 @@ async function getProducts(req, res) {
 
 async function createProduct(req, res) {
     try {
+
         const product = new Product(req.body);
+        if (req.file){
+            product.image = req.file.filename;
+        }
         const newProduct = await product.save();
+
         return res.status(201).send({message:'producto creado', product: newProduct})
 
     } catch (error) {

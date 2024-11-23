@@ -3,7 +3,7 @@ const Category = require('../models/category.model');
 async function getCategories(req, res) {
     try {
         const categories =  await Category.find();
-        return res.status(200).send({message:"Categorías obtenidas conrrectamente", categories});
+        return res.status(200).send({message:"Categorías obtenidas correctamente", categories});
     } catch (error) {
         console.log(error);
         return res.status(500).send({message:"Error al obtener categoría"});   
